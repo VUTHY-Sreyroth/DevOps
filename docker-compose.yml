@@ -1,0 +1,24 @@
+ # docker-compose.yml
+version: '3.7'
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    privileged: true
+    user: root
+    ports:
+      - 8080:8080
+      - 50000:50000
+    container_name: jenkins-lts
+    volumes:
+      - "/home/roth/Desktop/jenkins_home:/var/jenkins_home"
+    links:
+      - "db:database"
+  db:
+    image: mysql:latest
+    user: root
+    command: --default-authentication-plugin=mysql_native_password
+    #restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    volumes:
+      - "/usr/bin/mysql:/var/lib/mysql"
